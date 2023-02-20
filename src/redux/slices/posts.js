@@ -20,7 +20,27 @@ const initialState = {
 const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducer: {},
+  reducers: {},
+
+  // в extraRedusers записываем состояние нащего асинхронного экшена
+  extraReducers: {
+    // суть в том, что если мы отправили запрос fetchPosts и он сейчас в состоянии pending, то мы в стейте ставим статус лоадинг
+    [fetchPosts.pending]: (state) => {
+      state.posts.items = [];
+      state.posts.status = "loading";
+    },
+    // а если в состоянии fulfilled то ставим статус что загружено
+    [fetchPosts.fulfilled]: (state, action) => {
+      // в posts.items помещаем все что мы с вами загрузили
+      state.posts.items = action.payload;
+      state.posts.status = "loaded";
+    },
+    // а если в ошибка то обнуляем наш items
+    [fetchPosts.rejected]: (state) => {
+      state.posts.items = [];
+      state.posts.status = "error";
+    },
+  },
 });
 
 export const postsReducer = postsSlice.reducer;
