@@ -7,7 +7,7 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   return data;
 });
 
-export const fetchTags = createAsyncThunk("posts/fetchPosts", async () => {
+export const fetchTags = createAsyncThunk("posts/fetchTags", async () => {
   const { data } = await axios.get("/tags");
   return data;
 });
@@ -45,6 +45,21 @@ const postsSlice = createSlice({
     [fetchPosts.rejected]: (state) => {
       state.posts.items = [];
       state.posts.status = "error";
+    },
+    [fetchTags.pending]: (state) => {
+      state.tags.items = [];
+      state.tags.status = "loading";
+    },
+    // а если в состоянии fulfilled то ставим статус что загружено
+    [fetchTags.fulfilled]: (state, action) => {
+      // в posts.items помещаем все что мы с вами загрузили
+      state.tags.items = action.payload.flat();
+      state.tags.status = "loaded";
+    },
+    // а если в ошибка то обнуляем наш items
+    [fetchTags.rejected]: (state) => {
+      state.tags.items = [];
+      state.tags.status = "error";
     },
   },
 });

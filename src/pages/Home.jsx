@@ -14,12 +14,13 @@ export const Home = () => {
   const { posts, tags } = useSelector((state) => state.posts);
 
   const isPostsLoading = posts.status === "loading";
+  const isTagsLoading = tags.status === "loading";
 
   React.useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchTags());
   }, []);
-
+  console.log(posts);
   return (
     <>
       <Tabs
@@ -36,28 +37,22 @@ export const Home = () => {
             isPostsLoading ? (
               <Post key={index} isLoading={true} />
             ) : (
-              (console.log(obj),
-              (
-                <Post
-                  id={obj.id}
-                  title={obj.title}
-                  imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
-                  user={obj.user}
-                  createdAt={obj.createdAt}
-                  viewsCount={obj.viewsCount}
-                  commentsCount={3}
-                  tags={obj.tags.split(",")}
-                  isEditable
-                />
-              ))
+              <Post
+                id={obj.id}
+                title={obj.title}
+                imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
+                user={obj.user}
+                createdAt={obj.createdAt}
+                viewsCount={obj.viewsCount}
+                commentsCount={3}
+                tags={obj.tags.split(",")}
+                isEditable
+              />
             )
           )}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock
-            items={["react", "typescript", "заметки"]}
-            isLoading={false}
-          />
+          <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
             items={[
               {
