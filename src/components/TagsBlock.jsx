@@ -11,7 +11,6 @@ import Skeleton from "@mui/material/Skeleton";
 import { SideBlock } from "./SideBlock";
 
 export const TagsBlock = ({ items, isLoading = true }) => {
-  console.log(items);
   return (
     <SideBlock title="Тэги">
       <List>
