@@ -13,7 +13,6 @@ export const FullPost = () => {
 
   // Получаем полный пост ииз бэка по id
   React.useEffect(() => {
-    console.log("id", id);
     axios
       .get(`/posts/${id}`)
       .then((res) => {
@@ -28,9 +27,6 @@ export const FullPost = () => {
 
   if (isLoading) {
     return <Post isLoading={isLoading} isFullPost />;
-  }
-  {
-    console.log("data", data);
   }
   return (
     <>
